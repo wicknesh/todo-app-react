@@ -27,6 +27,9 @@ function App() {
     setTasks(p => p.map(t => (t.id === task.id ? { ...t, name: task.name }
       : t
     )))
+    setTasks(p => p.map(t => (t.id === task.id ? { ...t, description: task.description }
+      : t
+    )))
     closeEditMode();
   }
 
@@ -41,10 +44,11 @@ function App() {
     setPreviousFocusEl(document.activeElement);
   }
 
+
   return (
     <div className="flex flex-col items-center justify-center">
       <header>
-        <img className="w-[15rem] h-auto mx-auto mt-24" src="../public/images/logo-white.png" alt="ToDoList Logo" />
+        <img className="sm:w-[15rem] xs:w-[17.5rem] xsm:w-[20rem] h-auto mx-auto mt-24" src="../public/images/logo-white.png" alt="ToDoList Logo" />
       </header>
       {
         isEditing && (
@@ -55,7 +59,9 @@ function App() {
           />
         )
       }
-      <TaskForm addTask={addTask} />
+      <TaskForm
+        addTask={addTask}
+      />
       { tasks && (
         <TaskList
           tasks={tasks}
