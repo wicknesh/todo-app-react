@@ -2,11 +2,12 @@ import { useState } from 'react';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import EditForm from './components/EditForm';
-import useLocalStorage from './hooks/useLocalStorage';
+// import useLocalStorage from './hooks/useLocalStorage';
 
 function App() {
 
-  const [tasks, setTasks] = useLocalStorage('todo.tasks', []);
+  // const [tasks, setTasks] = useLocalStorage('todo.tasks', []);
+  const [tasks, setTasks] = useState('');
   const [previousFocusEl, setPreviousFocusEl] = useState(null);
   const [editedTask, setEditedTask] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -20,14 +21,14 @@ function App() {
   }
 
   const toggleTask = (id) => {
-    setTasks(p => p.map(t => (t.id === id ? { ...t, checked: !t.checked } : t)))
+    setTasks(prevState => prevState.map(t => (t.id === id ? { ...t, checked: !t.checked } : t)))
   }
 
   const updateTask = (task) => {
-    setTasks(p => p.map(t => (t.id === task.id ? { ...t, name: task.name }
+    setTasks(prevState => prevState.map(t => (t.id === task.id ? { ...t, name: task.name }
       : t
     )))
-    setTasks(p => p.map(t => (t.id === task.id ? { ...t, description: task.description }
+    setTasks(prevState => prevState.map(t => (t.id === task.id ? { ...t, description: task.description }
       : t
     )))
     closeEditMode();
@@ -48,7 +49,7 @@ function App() {
   return (
     <div className="flex flex-col items-center justify-center">
       <header>
-        <img className="sm:w-[15rem] xs:w-[17.5rem] xsm:w-[20rem] h-auto mx-auto mt-24" src="../public/images/logo-white.png" alt="ToDoList Logo" />
+        <img className="w-60 h-auto mx-auto mt-24" src="../public/images/logo-white.png" alt="ToDoList Logo" />
       </header>
       {
         isEditing && (
