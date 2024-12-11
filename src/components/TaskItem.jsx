@@ -11,7 +11,7 @@ const TaskItem = ({ task, deleteTask, toggleTask, editMode }) => {
     }
 
   return (
-    <li className={`flex items-center justify-between gap-2.5 border-2 border-solid ${task.important ? 'border-red-500' : 'border-[#433D8B]'} rounded-lg p-2.5 w-[28rem]`}>
+    <li className={`flex items-center justify-between gap-2.5 border-2 border-solid ${task.important ? 'border-red-500' : 'border-[#433D8B]'} rounded-lg p-2.5 w-full`}>
         <div className="flex items-center gap-2">
             <div className="flex items-center shrink-0">
                 <input
