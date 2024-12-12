@@ -21,16 +21,11 @@ function App() {
   }
 
   const toggleTask = (id) => {
-    setTasks(prevState => prevState.map(t => (t.id === id ? { ...t, checked: !t.checked } : t)))
+    setTasks(prevState => prevState.map(t => (t.id === id ? { ...t, checked: !t.checked } : t )));
   }
 
   const updateTask = (task) => {
-    setTasks(prevState => prevState.map(t => (t.id === task.id ? { ...t, name: task.name }
-      : t
-    )))
-    setTasks(prevState => prevState.map(t => (t.id === task.id ? { ...t, description: task.description }
-      : t
-    )))
+    setTasks(prevState => prevState.map(t => (t.id === task.id ? { ...t, name: task.name, description: task.description, important: task.important } : t )));
     closeEditMode();
   }
 
