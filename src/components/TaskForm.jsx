@@ -1,6 +1,6 @@
 import { ExclamationTriangleIcon, PlusIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const TaskForm = ({ addTask }) => {
 
@@ -26,49 +26,66 @@ const TaskForm = ({ addTask }) => {
         setChecked(false);
       }
 
-    let fetched = false;
+    // let fetched = useRef(false);
 
-    const fetchToDos = () => {
-      if(fetched) return;
-      fetched = true;
-      axios.get(`https://jsonplaceholder.typicode.com/todos`)
-          .then((res) => {
+    // const fetchToDos = () => {
+    //   if(fetched.current) return;
+    //   fetched.current = true;
+    //   axios.get(`https://jsonplaceholder.typicode.com/todos`)
+    //       .then((res) => {
+    //         res.data
+    //           .slice(0, 5)
+    //           .forEach((todo, index) =>
+    //             addTask({
+    //               id: index,
+    //               name: todo.id,
+    //               checked: todo.completed,
+    //               description: todo.title,
+    //               important: Math.random() < 0.5
+    //             })
+    //           );  
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       })
+    // }
+
+    // useEffect(() => {
+    //   fetchToDos();
+    // });
+
+    useEffect(() => {
+      let ignore = false;
+
+      async function fetchToDos () {
+        const res = await axios.get(`https://jsonplaceholder.typicode.com/todos`);
+        if (!ignore) {
+          try {
             res.data
               .slice(0, 5)
-              .forEach((todo, index) =>
+              .forEach((todo, index) => {
                 addTask({
-                  id: index,
+                  id:index,
                   name: todo.id,
                   checked: todo.completed,
                   description: todo.title,
-                  important: Math.random() < 0.5
+                  important: Math.floor(Math.random() * 2)
                 })
-              );  
-          })
-          .catch((error) => {
+              })
+          } catch (error) {
             console.log(error);
-          })
-    }
+          }
+        }
+      }
 
-    useEffect(() => {
       fetchToDos();
+
+      return () => {
+        ignore = true;
+      }
     }, []);
 
     //useRef hook useCallBack and useMemo
-
-    // useEffect(() => {
-    //   axios.get(`https://jsonplaceholder.typicode.com/todos`)
-    //     .then((res) => {
-    //       res.data
-    //         .slice(0, 2)
-    //         .forEach((todo) => {
-    //           console.log(todo.title);
-    //         })
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     })
-    // }, []);
 
   return (
     <form  onSubmit={handleFormSubmit}>
@@ -102,7 +119,6 @@ const TaskForm = ({ addTask }) => {
             />
             <label
               htmlFor="icon-checkbox"
-              // onClick={toggleCheckbox}
               className={`cursor-pointer`}
             >
               <ExclamationTriangleIcon className={`h-12 w-12 ${checked ? 'text-yellow-400' : 'text-gray-500'}`} />
