@@ -1,4 +1,4 @@
-import { CheckIcon } from '@heroicons/react/24/solid'
+import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
 
 const EditForm = ({ editedTask, updateTask, closeEditMode }) => {
@@ -8,8 +8,11 @@ const EditForm = ({ editedTask, updateTask, closeEditMode }) => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        updateTask({...editedTask, name: updatedTaskName });
-        updateTask({...editedTask, description: updatedTaskDescription });
+        updateTask({...editedTask, name: updatedTaskName, description: updatedTaskDescription, important: checked });
+    }
+    const [ checked, setChecked ] = useState(editedTask.important);
+    const toggleCheckbox = () => {
+      setChecked(!checked);
     }
     useEffect(() => {
         const closeModeOnEscape = (e) => {
@@ -47,13 +50,42 @@ const EditForm = ({ editedTask, updateTask, closeEditMode }) => {
                   placeholder='Update / enter description...'
                 ></textarea>
               </div>
+              <div className="md:flex hidden ml-2">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={toggleCheckbox}
+                  className='hidden'
+                  id='icon-checkbox'
+                />
+                <label
+                  htmlFor="icon-checkbox"
+                  className={`cursor-pointer`}
+                >
+                  <ExclamationTriangleIcon className={`h-12 w-12 ${checked ? 'text-yellow-400' : 'text-gray-500'}`} />
+              </label>
+              </div>
               <div className="md:flex hidden">
                 <button
-                  className="bg-[#433D8B] p-2 rounded ml-4"
+                  className="bg-[#433D8B] p-2 rounded ml-2"
                   type="submit"
                   >
                     <CheckIcon className='size-6' stroke='#C8ACD6' fill='#C8ACD6' />
                 </button>
+              </div>
+              <div className='flex md:hidden mt-2 w-full'>
+                <input
+                  type='checkbox'
+                  checked={checked}
+                  onChange={toggleCheckbox}
+                  className='hidden'
+                  id="icon-checkbox"
+                ></input>
+                <label
+                  htmlFor="icon-checkbox"
+                  className={`select-none cursor-pointer p-2 w-full text-center rounded-md ${checked ? 'bg-yellow-400' : 'bg-gray-500'}`}
+                >Mark as important!
+                </label>
               </div>
               <div className="md:hidden flex w-full mt-4">
                 <button
