@@ -1,6 +1,6 @@
 import { ExclamationTriangleIcon, PlusIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const TaskForm = ({ addTask }) => {
 
@@ -25,34 +25,6 @@ const TaskForm = ({ addTask }) => {
         setTaskDescription("");
         setChecked(false);
       }
-
-    // let fetched = useRef(false);
-
-    // const fetchToDos = () => {
-    //   if(fetched.current) return;
-    //   fetched.current = true;
-    //   axios.get(`https://jsonplaceholder.typicode.com/todos`)
-    //       .then((res) => {
-    //         res.data
-    //           .slice(0, 5)
-    //           .forEach((todo, index) =>
-    //             addTask({
-    //               id: index,
-    //               name: todo.id,
-    //               checked: todo.completed,
-    //               description: todo.title,
-    //               important: Math.random() < 0.5
-    //             })
-    //           );  
-    //       })
-    //       .catch((error) => {
-    //         console.log(error);
-    //       })
-    // }
-
-    // useEffect(() => {
-    //   fetchToDos();
-    // });
 
     useEffect(() => {
       let ignore = false;
