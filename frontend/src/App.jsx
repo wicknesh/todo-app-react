@@ -28,7 +28,7 @@ function App() {
   const deleteTask = async (id) => {
     setTasks(prevState => prevState.filter(t => t.id !== id))
     try {
-      const response = await axios.delete(`http://localhost:4500/tasks/delete-task/`, {
+      const response = await axios.delete(`https://todo-app-8x4y.onrender.com/tasks/delete-task/`, {
         data: {uid: user?.uid, tid: id},
     })
     console.log(`Task deleted successfully`, response.data);
@@ -40,7 +40,7 @@ function App() {
   const toggleTask = async (id) => {
     setTasks(prevState => prevState.map(t => (t.id === id ? { ...t, checked: !t.checked } : t )));
     try {
-      const response = await axios.put(`http://localhost:4500/tasks/task-status/`, {
+      const response = await axios.put(`https://todo-app-8x4y.onrender.com/tasks/task-status/`, {
         uid: user?.uid,
         tid: id,
       });
@@ -52,7 +52,7 @@ function App() {
 
   const updateTask = async (task) => {
     try {
-      const response = await axios.put(`http://localhost:4500/tasks/edit-task`, {
+      const response = await axios.put(`https://todo-app-8x4y.onrender.com/tasks/edit-task`, {
         uid: user?.uid,
         tid: task.id,
         tname: task.name,

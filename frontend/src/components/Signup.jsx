@@ -19,7 +19,7 @@ const Signup = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:4500/user/signup', {
+            const response = await axios.post('https://todo-app-8x4y.onrender.com/user/signup', {
                 name,
                 email,
                 password

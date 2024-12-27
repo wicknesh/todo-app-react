@@ -18,7 +18,7 @@ const TaskForm = ({ addTask }) => {
         e.preventDefault();
         try
           {
-            const response = await axios.put(`http://localhost:4500/tasks/add-task/`, {
+            const response = await axios.put(`https://todo-app-8x4y.onrender.com/tasks/add-task/`, {
               uid: user?.uid,
               tname: task,
               tdesc: taskDescription,
@@ -82,7 +82,7 @@ const TaskForm = ({ addTask }) => {
         if(!ignoreRef.current) {
           try {
             const uid = user?.uid;
-            const res = await axios.get(`http://localhost:4500/tasks/get-tasks/${uid}`);
+            const res = await axios.get(`https://todo-app-8x4y.onrender.com/tasks/get-tasks/${uid}`);
             if (res.data.task.length) {
               res.data.task.forEach((taskObj) => {
                 addTask({
