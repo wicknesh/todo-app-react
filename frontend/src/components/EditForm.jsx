@@ -8,7 +8,8 @@ const EditForm = ({ editedTask, updateTask, closeEditMode }) => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        updateTask({...editedTask, name: updatedTaskName, description: updatedTaskDescription, important: checked });
+
+        updateTask({id: editedTask.id , name: updatedTaskName, description: updatedTaskDescription, important: checked });
     }
     const [ checked, setChecked ] = useState(editedTask.important);
     const toggleCheckbox = () => {
