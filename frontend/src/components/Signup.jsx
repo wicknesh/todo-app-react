@@ -29,7 +29,7 @@ const Signup = () => {
             setSuccessMessage(response.data.message);
             setErrorMessage('');
             setUser(response.data.user);
-            console.log(response.data.user);
+            console.log(response);
 
             setTimeout(() => {
               navigate('/task')
