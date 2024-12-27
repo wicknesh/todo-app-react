@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { UserContext } from "../utils/UserProvider.jsx";
 
 const Signup = () => {
@@ -11,6 +11,7 @@ const Signup = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const handleSignup = async() => {
         if(!name || !email || !password){
@@ -31,8 +32,9 @@ const Signup = () => {
             console.log(response.data.user);
 
             setTimeout(() => {
-              window.location.href = '/task';
+              navigate('/task')
             }, 1000);
+            
         } catch (error) {
             setErrorMessage(error.response?.data?.message || 'Registration failed');
             setSuccessMessage('');
