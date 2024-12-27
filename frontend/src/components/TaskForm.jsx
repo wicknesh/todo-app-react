@@ -1,9 +1,11 @@
 import { ExclamationTriangleIcon, PlusIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
+import { UserContext } from '../utils/UserProvider';
 
 const TaskForm = ({ addTask }) => {
-
+    const ignoreRef = useRef(false);
+    const { user } = useContext(UserContext);
     const [ checked, setChecked ] = useState(false);
     const toggleCheckbox = () => {
       setChecked(!checked);
@@ -12,56 +14,102 @@ const TaskForm = ({ addTask }) => {
     const [task, setTask] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        addTask({
-          id: Date.now(),
-          name: task,
-          checked: false,
-          description: taskDescription,
-          important: checked
-        });
-        setTask("");
-        setTaskDescription("");
-        setChecked(false);
+        try
+          {
+            const response = await axios.put(`http://localhost:4500/tasks/add-task/`, {
+              uid: user?.uid,
+              tname: task,
+              tdesc: taskDescription,
+              tchecked: false,
+              timportant: checked
+            });
+
+            const tid = response.data.tid;
+
+            addTask({
+              id: tid,
+              name: task,
+              checked: false,
+              description: taskDescription,
+              important: checked
+            });
+            
+            setTask("");
+            setTaskDescription("");
+            setChecked(false);
+          } catch (error) {
+            console.error(`Error adding task:${error}`)
+        }  
       }
+
+    // useEffect(() => {
+    //   let ignore = false;
+
+    //   async function fetchToDos () {
+    //     const res = await axios.get(`https://jsonplaceholder.typicode.com/todos`);
+    //     if (!ignore) {
+    //       try {
+    //         res.data
+    //           .slice(0, 5)
+    //           .forEach((todo, index) => {
+    //             addTask({
+    //               id:index,
+    //               name: todo.id,
+    //               checked: todo.completed,
+    //               description: todo.title,
+    //               important: Math.floor(Math.random() * 2)
+    //             })
+    //           })
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    //     }
+    //   }
+
+    //   fetchToDos();
+
+    //   return () => {
+    //     ignore = true;
+    //   }
+    // }, []);
+
 
     useEffect(() => {
-      let ignore = false;
-
-      async function fetchToDos () {
-        const res = await axios.get(`https://jsonplaceholder.typicode.com/todos`);
-        if (!ignore) {
+      
+      async function fetchTasks () {
+        if(!ignoreRef.current) {
           try {
-            res.data
-              .slice(0, 5)
-              .forEach((todo, index) => {
+            const uid = user?.uid;
+            const res = await axios.get(`http://localhost:4500/tasks/get-tasks/${uid}`);
+            if (res.data.task.length) {
+              res.data.task.forEach((taskObj) => {
                 addTask({
-                  id:index,
-                  name: todo.id,
-                  checked: todo.completed,
-                  description: todo.title,
-                  important: Math.floor(Math.random() * 2)
+                  id: taskObj.tid,
+                  name: taskObj.tname,
+                  checked: taskObj.tchecked,
+                  description: taskObj.tdesc,
+                  important: taskObj.timportant
                 })
-              })
+              });
+            }
           } catch (error) {
-            console.log(error);
+            console.error(error);
           }
-        }
+        }  
       }
 
-      fetchToDos();
+      fetchTasks();
 
       return () => {
-        ignore = true;
+        ignoreRef.current = true;
       }
-    }, []);
-
-    //useRef hook useCallBack and useMemo
+    }, [user?.uid, addTask]);
 
   return (
     <form  onSubmit={handleFormSubmit}>
-        <div className='flex md:flex-row flex-col mt-10 p-10 w-full items-start'>
+        <div className='flex md:flex-row flex-col p-10 w-full items-start'>
           <div className='flex flex-col w-80 md:w-96'>
             <input
               type="text"
@@ -129,6 +177,7 @@ const TaskForm = ({ addTask }) => {
               <PlusIcon className='size-8' stroke='#C8ACD6' fill='#C8ACD6' />
           </button>
         </div>
+        <div></div>
       </form>
   )
 }
