@@ -26,7 +26,14 @@ router.post('/signup', async (req, res) => {
         });
 
         await newUser.save();
-        res.status(201).json({ message: "Registration successful!"});
+        const userWithoutSensitiveInfo = newUser.toObject();
+        delete userWithoutSensitiveInfo._id;
+        delete userWithoutSensitiveInfo.password;
+
+        console.log(userWithoutSensitiveInfo);
+
+
+        res.status(201).json({ message: "Registration successful!", user: userWithoutSensitiveInfo });
     } catch (error) {
         console.error("Error registering user:", error);
         res.status(500).json({ message: "Error registering user"});
