@@ -21,7 +21,7 @@ const NavBar = ({ clearTasks }) => {
 
   return (
     <div className="container mx-auto flex flex-wrap p-5 md:flex-row items-center justify-between">
-        <img src={'../public/images/logo-white.png'} className="w-60 h-auto"/>
+        <img src="./logo-white.png" className="w-60 h-auto"/>
         <div className="hidden justify-between md:flex">
           <div className="flex items-center space-x-4">
             <p className="text-white inline-flex items-center font-bold text-lg">{ user?.name }</p>

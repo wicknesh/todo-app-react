@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <header>
-        <img className="w-60 h-auto mx-auto mt-24" src="../public/images/logo-white.png" alt="ToDoList Logo" />
+        <img className="w-60 h-auto mx-auto mt-24" src="./logo-white.png" alt="ToDoList Logo" />
       </header>
       <div className="flex flex-col justify-center items-center w-96">
         <div className="mt-10 text-white text-[2rem] font-bold">Login</div>
