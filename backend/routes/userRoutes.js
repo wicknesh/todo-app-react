@@ -30,8 +30,6 @@ router.post('/signup', async (req, res) => {
         delete userWithoutSensitiveInfo._id;
         delete userWithoutSensitiveInfo.password;
 
-        console.log(userWithoutSensitiveInfo);
-
 
         res.status(201).json({ message: "Registration successful!", user: userWithoutSensitiveInfo });
     } catch (error) {
