@@ -72,10 +72,10 @@ const Signup = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       {successMessage && (
-        <p>{successMessage}</p>  
+        <p className="text-white">{successMessage}</p>  
       )}
       {errorMessage && (
-        <p>{errorMessage}</p>  
+        <p className="text-red-500">{errorMessage}</p>  
       )}
       <Link to='/' className="text-white text-sm mt-3">Already have an account? Login here</Link>
       <button className="mt-4 px-6 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600" onClick={handleSignup}>Signup</button>
